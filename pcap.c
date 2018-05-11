@@ -226,9 +226,9 @@ Open a source device to read packets from.
 static int lpcap_open_live(lua_State *L)
 {
     const char *device = luaL_optstring(L, 1, "any");
-    int snaplen = luaL_optint(L, 2, 0);
+    int snaplen = luaL_optinteger(L, 2, 0);
     int promisc = lua_toboolean(L, 3);
-    int to_ms = 1000 * luaL_optint(L, 4, 0); /* convert to milliseconds */
+    int to_ms = 1000 * luaL_optinteger(L, 4, 0); /* convert to milliseconds */
     pcap_t** cap = pushpcapopen(L);
     char errbuf[PCAP_ERRBUF_SIZE];
     if(snaplen == 0)
@@ -251,8 +251,8 @@ BPF program.
 */
 static int lpcap_open_dead(lua_State *L)
 {
-    int linktype = luaL_optint(L, 1, DLT_EN10MB);
-    int snaplen = luaL_optint(L, 2, 0);
+    int linktype = luaL_optinteger(L, 1, DLT_EN10MB);
+    int snaplen = luaL_optinteger(L, 2, 0);
     pcap_t** cap = pushpcapopen(L);
 
     /* this is the value tcpdump uses, its way bigger than any known link size */
@@ -585,7 +585,7 @@ static int lpcap_dump(lua_State* L)
 
     pkt = luaL_checklstring(L, 2, &caplen);
     opttimeval(L, 3, &hdr.ts);
-    wirelen = luaL_optint(L, 4, caplen);
+    wirelen = luaL_optinteger(L, 4, caplen);
 
     luaL_argcheck(L, wirelen >= caplen, 4, "original wirelen cannot be less than current pkt length");
 
